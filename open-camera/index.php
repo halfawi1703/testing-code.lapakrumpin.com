@@ -25,6 +25,22 @@
                     videoElement.srcObject = mediaStream;
                     startCameraButton.disabled = true;
                     stopCameraButton.disabled = false;
+
+                    // Memunculkan notifikasi bahwa kamera diakses
+                    if(Notification.permission === 'granted'){
+                        new Notification('Kamera Diakses', {
+                            body: 'Aplikasi sedang menggunakan kamera.'
+                        });
+                    }
+                    else if (Notification.permission !== 'denied') {
+                        Notification.requestPermission().then(function (permission) {
+                            if (permission === 'granted') {
+                                new Notification('Kamera Diakses', {
+                                    body: 'Aplikasi sedang menggunakan kamera.'
+                                });
+                            }
+                        });
+                    }
                 })
                 .catch(function(err) {
                     console.error('Gagal mengakses kamera:', err);
